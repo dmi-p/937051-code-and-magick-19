@@ -6,7 +6,7 @@ var renderFigure = function (ctx, x, y, width, height, color) {
   return ctx;
 };
 
-var getColoredText = function (ctx, text, x, y, color) {
+var renderColoredText = function (ctx, text, x, y, color) {
   ctx.fillStyle = color;
   ctx.fillText(text, x, y);
   return ctx;
@@ -15,8 +15,8 @@ var getColoredText = function (ctx, text, x, y, color) {
 var renderBar = function (ctx, x, y, barWidth, barHeight, barColor, fontColor, textUnderBar, textOverBar, textOverBarY) {
   var GAP = 10;
   renderFigure(ctx, x, y, barWidth, barHeight, barColor);
-  getColoredText(ctx, textUnderBar, x, y + (GAP * 2), fontColor);
-  getColoredText(ctx, textOverBar, x, textOverBarY, fontColor);
+  renderColoredText(ctx, textUnderBar, x, y + (GAP * 2), fontColor);
+  renderColoredText(ctx, textOverBar, x, textOverBarY, fontColor);
 };
 
 var getRandomColor = function () {
@@ -47,7 +47,7 @@ window.renderStatistics = function (ctx, names, times) {
   var BAR_HEIGHT = 150;
   var BAR_WIDTH = 40;
   var SCORE_CONTAINER_COLOR = '#fff';
-  var fontColor = '#000';
+  var FONT_COLOR = '#000';
 
   var SCORE_CONTAINER_SHADOW_WIDTH = 420;
   var SCORE_CONTAINER_SHADOW_HEIGHT = 270;
@@ -75,30 +75,41 @@ window.renderStatistics = function (ctx, names, times) {
       SCORE_CONTAINER_COLOR
   );
 
-  ctx.fillStyle = fontColor;
-
   var maxScore = getMaxElement(times);
   var lineGap = GAP + FONT_GAP;
+  var message = 'Ура вы победили!';
+  var messageX = SCORE_CONTAINER_X + (GAP * 3);
+  var messageY = SCORE_CONTAINER_Y + lineGap;
+  var resultText = 'Список результатов:';
+  var resultTextX = SCORE_CONTAINER_X + (GAP * 3);
+  var resultTextY = SCORE_CONTAINER_Y + (lineGap * 2);
+
   ctx.font = SCORE_CONTAINER_FONT;
-  getColoredText(ctx, 'Ура вы победили!', SCORE_CONTAINER_X + (GAP * 3), SCORE_CONTAINER_Y + lineGap, fontColor);
+
+  renderColoredText(ctx, message, messageX, messageY, FONT_COLOR);
   lineGap = lineGap + GAP + FONT_GAP;
-  getColoredText(ctx, 'Список результатов:', SCORE_CONTAINER_X + (GAP * 3), SCORE_CONTAINER_Y + lineGap, fontColor);
+  resultTextY = SCORE_CONTAINER_Y + lineGap;
+  renderColoredText(ctx, resultText, resultTextX, resultTextY, FONT_COLOR);
   lineGap = lineGap + GAP + FONT_GAP;
 
   for (var i = 0; i < names.length; i++) {
     var isMyScore = names[i] === 'Вы';
     var barColor = isMyScore ? MY_SCORE_COLOR : getRandomColor();
+    var barX = (GAP * 3) + SCORE_CONTAINER_X + ((BAR_WIDTH + BAR_GAP) * i);
+    var barY = SCORE_CONTAINER_Y + GAP + lineGap + BAR_HEIGHT;
+    var barHeight = (-BAR_HEIGHT * times[i]) / maxScore;
+    var textOverBarY = SCORE_CONTAINER_Y + lineGap + BAR_HEIGHT - (BAR_HEIGHT * times[i]) / maxScore;
     renderBar(
         ctx,
-        (GAP * 3) + SCORE_CONTAINER_X + ((BAR_WIDTH + BAR_GAP) * i),
-        SCORE_CONTAINER_Y + GAP + lineGap + BAR_HEIGHT,
+        barX,
+        barY,
         BAR_WIDTH,
-        (-BAR_HEIGHT * times[i]) / maxScore,
+        barHeight,
         barColor,
-        fontColor,
+        FONT_COLOR,
         names[i],
         Math.floor(times[i]),
-        SCORE_CONTAINER_Y + lineGap + BAR_HEIGHT - (BAR_HEIGHT * times[i]) / maxScore
+        textOverBarY
     );
   }
 };
