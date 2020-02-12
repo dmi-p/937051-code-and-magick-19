@@ -5,19 +5,18 @@ var WIZARD_SURNAMES = ['да Марья', 'Верон', 'Мирабелла', '�
 var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
 var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
 var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
-
-var userDialog = document.querySelector('.setup');
-
 var ESC_KEY = 'Escape';
 var ENTER_KEY = 'Enter';
 
-var setupOpen = document.querySelector('.setup-open');
-var setupClose = userDialog.querySelector('.setup-close');
-var setupUserName = userDialog.querySelector('.setup-user-name');
+var userDialog = document.querySelector('.setup');
+
+var $setupOpenButton = document.querySelector('.setup-open');
+var $setupCloseButton = userDialog.querySelector('.setup-close');
+var $userNameField = userDialog.querySelector('.setup-user-name');
 
 
 var onPopupEscPress = function (evt) {
-  if ((evt.key === ESC_KEY) && (evt.target !== setupUserName)) {
+  if ((evt.key === ESC_KEY) && (evt.target !== $userNameField)) {
     closePopup();
   }
 };
@@ -32,21 +31,21 @@ var closePopup = function () {
   document.removeEventListener('keydown', onPopupEscPress);
 };
 
-setupOpen.addEventListener('click', function () {
+$setupOpenButton.addEventListener('click', function () {
   openPopup();
 });
 
-setupOpen.addEventListener('keydown', function (evt) {
+$setupOpenButton.addEventListener('keydown', function (evt) {
   if (evt.key === ENTER_KEY) {
     openPopup();
   }
 });
 
-setupClose.addEventListener('click', function () {
+$setupCloseButton.addEventListener('click', function () {
   closePopup();
 });
 
-setupClose.addEventListener('keydown', function (evt) {
+$setupCloseButton.addEventListener('keydown', function (evt) {
   if (evt.key === ENTER_KEY) {
     closePopup();
   }
