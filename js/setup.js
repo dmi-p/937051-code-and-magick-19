@@ -1,11 +1,6 @@
 'use strict';
 
-(function () {
-  var WIZARD_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
-  var WIZARD_SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
-  var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
-  var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
-  var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
+(function (generateCoat, generateEyes, generateFireball, wizards) {
   var $userDialog = document.querySelector('.setup');
   var $wizardCoat = $userDialog.querySelector('.wizard-coat');
   var $wizardEyes = $userDialog.querySelector('.wizard-eyes');
@@ -47,52 +42,6 @@
   var $wizardList = $userDialog.querySelector('.setup-similar-list');
   var $wizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 
-  var generateRandomElementOfArray = function (arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
-  };
-
-  var generateName = function () {
-    var randomName = generateRandomElementOfArray(WIZARD_NAMES);
-    var randomSurname = generateRandomElementOfArray(WIZARD_SURNAMES);
-    return randomName + ' ' + randomSurname;
-  };
-
-  var generateCoat = function () {
-    return generateRandomElementOfArray(COAT_COLORS);
-  };
-
-  var generateEyes = function () {
-    return generateRandomElementOfArray(EYES_COLORS);
-  };
-
-  var generateFireball = function () {
-    return generateRandomElementOfArray(FIREBALL_COLORS);
-  };
-
-
-  var wizards = [
-    {
-      name: generateName(),
-      coatColor: generateCoat(),
-      eyesColor: generateEyes()
-    },
-    {
-      name: generateName(),
-      coatColor: generateCoat(),
-      eyesColor: generateEyes()
-    },
-    {
-      name: generateName(),
-      coatColor: generateCoat(),
-      eyesColor: generateEyes()
-    },
-    {
-      name: generateName(),
-      coatColor: generateCoat(),
-      eyesColor: generateEyes()
-    }
-  ];
-
   var renderWizard = function (wizard) {
     var $wizard = $wizardTemplate.cloneNode(true);
 
@@ -111,4 +60,7 @@
 
   $userDialog.querySelector('.setup-similar').classList.remove('hidden');
 
-})();
+})(window.utils.generateCoat,
+    window.utils.generateEyes,
+    window.utils.generateFireball,
+    window.utils.wizards);
